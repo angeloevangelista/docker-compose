@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:5.0.2
+    container_name: image-server-mongodb
+    networks:
+      - image-server-bridge
+
+  image-server-api:
+    container_name: image-server-api
+    build:
+      context: ./ImageServerApi
+      dockerfile: ./Dockerfile
+    networks:
+      - image-server-bridge
+    ports:
+      - 3333:80
+    depends_on:
+      - mongodb
+
+  image-server-web:
+    container_name: image-server-web
+    build:
+      context: ./ImageUploaderWeb
+      dockerfile: ./Dockerfile
+      args:
+        - REACT_APP_API_HOST=http://localhost:3333/api
+    networks:
+      - image-server-bridge
+    ports:
+      - 3000:80
+
+networks:
+  image-server-bridge:
+    driver: bridge
+    name: image-server-bridge
