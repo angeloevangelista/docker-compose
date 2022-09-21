@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-pod-b
+spec:
+  type: ClusterIP
+  selector:
+    app: second-pod
+  ports:
+    - port: 8080 # the port which service listens to
+      targetPort: 80
