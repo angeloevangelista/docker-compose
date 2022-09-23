@@ -1,0 +1,15 @@
+# This one is like a ClusterIp that allows external connection 
+# with an automatic cloud integration (no need of manual config)
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-pod-a-load-balancer
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000
+  selector:
+    app: first-pod
